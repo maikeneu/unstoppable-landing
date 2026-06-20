@@ -20,6 +20,10 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}
 body{font-family:'Inter',sans-serif;background:var(--warm-white);color:var(--charcoal);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.08;letter-spacing:-.01em}
 .copper{color:var(--copper)}
@@ -411,6 +415,7 @@ footer .legal a:hover{text-decoration:underline}
 <div class="mobile-cta"><a href="#termin" class="btn btn-primary">Sichere Dir Dein Gespräch</a></div>
 <div id="lightbox"><img alt=""></div>
 
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
 <script>
 const nav=document.getElementById('nav'),progress=document.getElementById('progress');
 const orbs=[...document.querySelectorAll('.orb')];
@@ -480,6 +485,16 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitHeroWord);
 const BOOKING_URL="https://calendly.com/maikeneuheisel/become-unstoppable";
 bookBtn.href=BOOKING_URL;bookBtn.target="_blank";
 bookingEmbed.innerHTML='<iframe src="'+BOOKING_URL+'?hide_gdpr_banner=1&background_color=f7f3ee&primary_color=c96b2c" style="width:100%;height:700px;border:0"></iframe>';
+</script>
+<script>
+// Lenis: butterweiches Scrollen (laedt live, lokal blockiert und faellt sauber weg)
+window.addEventListener('load',function(){try{
+  if(window.Lenis){
+    var lenis=new Lenis({lerp:0.09,smoothWheel:true});
+    function raf(t){lenis.raf(t);requestAnimationFrame(raf)}requestAnimationFrame(raf);
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');if(id.length>1){var el=document.querySelector(id);if(el){e.preventDefault();lenis.scrollTo(el,{offset:-8})}}})});
+  }
+}catch(e){}});
 </script>
 </body>
 </html>
